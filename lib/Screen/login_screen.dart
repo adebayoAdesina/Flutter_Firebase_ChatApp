@@ -5,9 +5,17 @@ import 'package:flutter/material.dart';
 
 import '../Widgets/input_field.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static const String id = '/login';
   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  String? email;
+  String? password;
 
   @override
   Widget build(BuildContext context) {
@@ -20,23 +28,26 @@ class LoginScreen extends StatelessWidget {
           children: [
             const LogoAndAppName(),
             InputField(
+              keyboardType: TextInputType.emailAddress,
               text: 'Email',
               onChanged: (value) {
-                print(value);
+                email = value;
               },
               icon: Icons.email,
             ),
             InputField(
               text: 'Password',
               onChanged: (value) {
-                print(value);
+                password = value;
               },
-              icon: Icons.email,
+              icon: Icons.looks,
+              obscureText: true,
             ),
             const SizedBox(
               height: 10.0,
             ),
             WelcomeButton(
+              onTap: (){},
               text: 'Log in',
               color: kBlueColor.withOpacity(0.5),
             ),

@@ -19,13 +19,19 @@ class _LogoAndAppNameState extends State<LogoAndAppName>
   void initState() {
     super.initState();
     animationController = AnimationController(
-        vsync: this, duration: const Duration(seconds: 2), upperBound: 1);
+        vsync: this, duration: const Duration(seconds: 1), upperBound: 1);
     animation =
         CurvedAnimation(parent: animationController, curve: Curves.bounceInOut);
     animationController.forward();
     animationController.addListener(() {
       setState(() {});
     });
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
   }
 
   @override

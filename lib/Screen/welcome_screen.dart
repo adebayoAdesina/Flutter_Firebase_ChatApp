@@ -50,6 +50,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               Navigator.pushNamed(context, LoginScreen.id);
             }),
             child: WelcomeButton(
+              onTap: (){},
               text: 'Log in',
               color: kBlueColor.withOpacity(0.5),
             ),
@@ -61,7 +62,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             onTap: (() {
               Navigator.pushNamed(context, RegistrationScreen.id);
             }),
-            child: const WelcomeButton(
+            child: WelcomeButton(
+              onTap: (){},
               text: 'Sign up',
               color: kBlueColor,
             ),
