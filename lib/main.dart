@@ -1,11 +1,14 @@
 import 'package:firebase_chat_app/Screen/login_screen.dart';
 import 'package:firebase_chat_app/Screen/welcome_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'Screen/chat_screen.dart';
 import 'Screen/registration_screen.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

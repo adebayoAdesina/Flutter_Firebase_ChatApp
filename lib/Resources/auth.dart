@@ -1,20 +1,28 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_chat_app/Screen/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<dynamic> getCurrentUser() async{
+  Future<String> getCurrentUser() async {
+    String currentuser = '';
     try {
       final user = _auth.currentUser;
-      
-      print(user!.email);
+
+      currentuser =user!.email.toString();
     } catch (e) {
       print(e);
     }
-
+    return currentuser;
   }
+
+  signOut (BuildContext context) {
+    _auth.signOut();
+    Navigator.pushNamed(context, LoginScreen.id);
+  }
+
   Future<String> signUpUser({
     required String fullName,
     required String email,
@@ -31,6 +39,25 @@ class AuthMethods {
       } else if (error.code == 'weak-password') {
         res = 'Password should be at least 6 characters';
       }
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
+  }
+
+  Future<String> loginUser(
+      {required String email, required String password}) async {
+    String res = 'an error occur';
+    try {
+      if (email.isNotEmpty || password.isEmpty) {
+        UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+            email: email, password: password);
+        res = 'success';
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        res = e.code;
+      } else if (e.code == 'wrong-password') {}
     } catch (e) {
       res = e.toString();
     }

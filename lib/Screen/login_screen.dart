@@ -1,8 +1,11 @@
+import 'package:firebase_chat_app/Resources/auth.dart';
+import 'package:firebase_chat_app/Screen/chat_screen.dart';
 import 'package:firebase_chat_app/Util/colors.dart';
 import 'package:firebase_chat_app/Widgets/logo_and_app_name.dart';
 import 'package:firebase_chat_app/Widgets/welcome_button.dart';
 import 'package:flutter/material.dart';
 
+import '../Util/utils.dart';
 import '../Widgets/input_field.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,6 +19,19 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   String? email;
   String? password;
+
+  void loginUser() async {
+    AuthMethods authMethods = AuthMethods();
+    String res = await authMethods.loginUser(
+      email: email.toString(),
+      password: password.toString(),
+    );
+    if (res == 'success') {
+      Navigator.pushNamed(context, ChatScreen.id);
+    } else {
+      showSnapBar(res, context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +62,13 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 10.0,
             ),
-            WelcomeButton(
-              onTap: (){},
-              text: 'Log in',
-              color: kBlueColor.withOpacity(0.5),
+            RawMaterialButton(
+              onPressed: (() => loginUser()),
+              child: WelcomeButton(
+                onTap: () {},
+                text: 'Log in',
+                color: kBlueColor.withOpacity(0.5),
+              ),
             ),
           ],
         ),
