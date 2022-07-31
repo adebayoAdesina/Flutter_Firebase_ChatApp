@@ -67,46 +67,52 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const LogoAndAppName(),
-            InputField(
-              text: 'Full Name',
-              onChanged: (value) => userInputs(Registration.fullName, value),
-              icon: Icons.email,
-            ),
-            InputField(
-              text: 'Email',
-              onChanged: (value) => userInputs(Registration.email, value),
-              icon: Icons.email,
-            ),
-            InputField(
-              text: 'Password',
-              onChanged: (value) => userInputs(Registration.password, value),
-              icon: Icons.looks,
-              obscureText: true,
-            ),
-            InputField(
-              text: 'Confirm Password',
-              onChanged: (value) =>
-                  userInputs(Registration.confirmPassword, value),
-              icon: Icons.looks,
-              obscureText: true,
-            ),
-            const SizedBox(
-              height: 10.0,
-            ),
-            RawMaterialButton(
-              onPressed: () => registerUser(),
-              child: WelcomeButton(
-                onTap: () {},
-                text: 'Sign up',
-                color: kBlueColor,
+        body: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const LogoAndAppName(),
+                  InputField(
+                    text: 'Full Name',
+                    onChanged: (value) => userInputs(Registration.fullName, value),
+                    icon: Icons.email,
+                  ),
+                  InputField(
+                    text: 'Email',
+                    onChanged: (value) => userInputs(Registration.email, value),
+                    icon: Icons.email,
+                  ),
+                  InputField(
+                    text: 'Password',
+                    onChanged: (value) => userInputs(Registration.password, value),
+                    icon: Icons.looks,
+                    obscureText: true,
+                  ),
+                  InputField(
+                    text: 'Confirm Password',
+                    onChanged: (value) =>
+                        userInputs(Registration.confirmPassword, value),
+                    icon: Icons.looks,
+                    obscureText: true,
+                  ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  RawMaterialButton(
+                    onPressed: () => registerUser(),
+                    child: WelcomeButton(
+                      onTap: () {},
+                      text: 'Sign up',
+                      color: kBlueColor,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

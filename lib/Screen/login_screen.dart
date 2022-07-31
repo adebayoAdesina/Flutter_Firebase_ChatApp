@@ -38,39 +38,45 @@ class _LoginScreenState extends State<LoginScreen> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const LogoAndAppName(),
-            InputField(
-              keyboardType: TextInputType.emailAddress,
-              text: 'Email',
-              onChanged: (value) {
-                email = value;
-              },
-              icon: Icons.email,
-            ),
-            InputField(
-              text: 'Password',
-              onChanged: (value) {
-                password = value;
-              },
-              icon: Icons.looks,
-              obscureText: true,
-            ),
-            const SizedBox(
-              height: 10.0,
-            ),
-            RawMaterialButton(
-              onPressed: (() => loginUser()),
-              child: WelcomeButton(
-                onTap: () {},
-                text: 'Log in',
-                color: kBlueColor.withOpacity(0.5),
+        body: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const LogoAndAppName(),
+                  InputField(
+                    keyboardType: TextInputType.emailAddress,
+                    text: 'Email',
+                    onChanged: (value) {
+                      email = value;
+                    },
+                    icon: Icons.email,
+                  ),
+                  InputField(
+                    text: 'Password',
+                    onChanged: (value) {
+                      password = value;
+                    },
+                    icon: Icons.looks,
+                    obscureText: true,
+                  ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  RawMaterialButton(
+                    onPressed: (() => loginUser()),
+                    child: WelcomeButton(
+                      onTap: () {},
+                      text: 'Log in',
+                      color: kBlueColor.withOpacity(0.5),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

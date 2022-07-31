@@ -11,16 +11,16 @@ class AuthMethods {
     try {
       final user = _auth.currentUser;
 
-      currentuser =user!.email.toString();
+      currentuser = user!.email.toString();
     } catch (e) {
       print(e);
     }
     return currentuser;
   }
 
-  signOut (BuildContext context) {
+  signOut(BuildContext context) {
     _auth.signOut();
-    Navigator.pushNamed(context, LoginScreen.id);
+    Navigator.pop(context, LoginScreen.id);
   }
 
   Future<String> signUpUser({

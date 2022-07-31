@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_chat_app/Resources/auth.dart';
 import 'package:firebase_chat_app/Util/colors.dart';
+import 'package:firebase_chat_app/Widgets/chat_listview.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -16,6 +17,7 @@ class _ChatScreenState extends State<ChatScreen> {
   AuthMethods authMethods = AuthMethods();
   String? message;
   String? sender;
+  TextEditingController textEditingController = TextEditingController();
 
   @override
   void initState() {
@@ -68,11 +70,13 @@ class _ChatScreenState extends State<ChatScreen> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
-            Hero(
-              tag: 'logo',
-              child: Image(
-                image: AssetImage('assets/images/R.png'),
-                width: 20,
+            Flexible(
+              child: Hero(
+                tag: 'logo',
+                child: Image(
+                  image: AssetImage('assets/images/R.png'),
+                  width: 20,
+                ),
               ),
             ),
             Text('Chat'),
@@ -85,44 +89,63 @@ class _ChatScreenState extends State<ChatScreen> {
       body: StreamBuilder<QuerySnapshot>(
           stream: _firebaseFirestore.collection('messages').snapshots(),
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return const CircularProgressIndicator();
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
             }
-            else {
-              final data = snapshot.data!.docs;
-              List messageWidgets = [];
-              for (var item in data) {
-                messageWidgets.add(item);
-              }
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    color: kWhiteColor,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            onChanged: (value) {
-                              message = value;
-                            },
-                            decoration: const InputDecoration(
-                              hintText: 'Type here',
-                            ),
+
+            final data = snapshot.data!.docs.reversed;
+            List messageWidgets = [];
+            for (var item in data) {
+              messageWidgets.add(item.data());
+            }
+            print(messageWidgets);
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                    child: ListView.builder(
+                        reverse: true,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0,
+                          vertical: 20.0,
+                        ),
+                        itemCount: messageWidgets.length,
+                        itemBuilder: (context, index) {
+                          final message = messageWidgets[index];
+                          return ChatListView(
+                              text: message['text'],
+                              sender: message['sender'],
+                              currentuser: sender.toString());
+                        })),
+                Container(
+                  color: kWhiteColor,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: textEditingController,
+                          onChanged: (value) {
+                            message = value;
+                          },
+                          decoration: const InputDecoration(
+                            hintText: 'Type here',
                           ),
                         ),
-                        TextButton(
-                          onPressed: (() => sendMessage()),
-                          child: Text('Send'),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              );
-            }
+                      ),
+                      TextButton(
+                        onPressed: (() {
+                          textEditingController.clear();
+                          sendMessage();
+                        }),
+                        child: Text('Send'),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            );
           }),
     );
   }

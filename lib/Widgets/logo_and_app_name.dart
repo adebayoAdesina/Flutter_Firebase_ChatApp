@@ -39,11 +39,13 @@ class _LogoAndAppNameState extends State<LogoAndAppName>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Hero(
-          tag: 'logo',
-          child: Image(
-            image: const AssetImage('assets/images/R.png'),
-            width: animation.value *100,
+        Flexible(
+          child: Hero(
+            tag: 'logo',
+            child: Image(
+              image: const AssetImage('assets/images/R.png'),
+              width: animation.value *100,
+            ),
           ),
         ),
         Column(
